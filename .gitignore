@@ -1,3 +1,26 @@
+# mine
+**/.spyproject
+**/.pylint.d
+**/__pycache__
+**/.ipynb_checkpoints
+**/models/*
+**/workspace/*
+**/utils/*
+**/train/logs/*
+**/saved_models/*
+**/*.jpg
+**/*.xml
+**/*.pdf
+
+**/Food-5K/*
+**/dataset/*
+**/datasets/*
+**/racoons/*
+**/output/*.csv
+**/models/*
+**/*.jpg
+**/train_logs/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
