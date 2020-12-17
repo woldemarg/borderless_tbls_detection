@@ -1,4 +1,4 @@
-import  os
+import os
 import tensorflow as tf
 from shutil import copyfile
 from google.protobuf import text_format
@@ -24,7 +24,7 @@ def modify_config(pipeline):
                                                   .path
                                                   .sep
                                                   .join([config.PRETRAINED_MODELS,
-                                                        'datasets',
+                                                         'datasets',
                                                          config.MODEL_NAME,
                                                          'checkpoint',
                                                          'ckpt-0']))
@@ -53,7 +53,7 @@ def read_pipeline_config(pipeline_config_path):
 def clone_pipeline_config():
     copyfile(os.path.sep.join([config.PRETRAINED_MODELS,
                                'datasets',
-                               config.MODEL_NAME,                               
+                               config.MODEL_NAME,
                                'pipeline.config']),
              os.path.sep.join([config.MODEL_ATTR,
                                'models',

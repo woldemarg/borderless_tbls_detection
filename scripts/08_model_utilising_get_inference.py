@@ -13,11 +13,11 @@ import config
 
 # %%
 
-detect_fn = tf.saved_model.load(config.SAVED_MODEL)  
+detect_fn = tf.saved_model.load(config.SAVED_MODEL)
 
 category_index = label_map_util.create_category_index_from_labelmap(
-      config.LABEL_MAP,
-      use_display_name=True)
+    config.LABEL_MAP,
+    use_display_name=True)
 
 
 # %%
@@ -90,8 +90,10 @@ def test_detection(tfrecords_filename, tfrecords_num, detect_fn):
 
 # %%
 
+# %matplotlib inline
+
 test_detection(
     tfrecords_filename=config.TEST_RECORD,
-    tfrecords_num=15,
+    tfrecords_num=50,
     detect_fn=detect_fn
 )

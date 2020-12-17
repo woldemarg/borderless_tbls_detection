@@ -4,7 +4,9 @@ import os
 
 MAX_IMG_WIDTH = 768
 NUM_AUG = 3
-PROJECT_FOLDER = r'D:\holomb_learn\tbl_detections'
+INF_TH = 0.3
+PROJECT_FOLDER = r'D:\holomb_learn\tbl_detection'
+DEMO_IMG = os.path.sep.join([PROJECT_FOLDER, 'demo', 'images'])
 IMG_FOLDER = os.path.sep.join([PROJECT_FOLDER, 'images'])
 IMG_UNPROCESSED = os.path.sep.join([IMG_FOLDER, 'unprocessed'])
 IMG_PROCESSED = os.path.sep.join([IMG_FOLDER, 'processed'])
@@ -16,7 +18,7 @@ TRAIN_SET = os.path.sep.join([IMG_FOLDER, 'splitted', 'train_set'])
 TEST_SET = os.path.sep.join([IMG_FOLDER, 'splitted', 'test_set'])
 VAL_SET = os.path.sep.join([IMG_FOLDER, 'splitted', 'val_set'])
 XML_STYLE = os.path.sep.join([IMG_FOLDER, 'xml_style.xml'])
-MODEL_ATTR = r'D:\holomb_learn\tbl_detections\workspace'
+MODEL_ATTR = os.path.sep.join([PROJECT_FOLDER, 'workspace'])
 MODEL_DATA = os.path.sep.join([MODEL_ATTR, 'data'])
 LABEL_MAP = os.path.sep.join([MODEL_DATA, 'label_map.pbtxt'])
 TRAIN_RECORD = os.path.sep.join([MODEL_DATA, 'train.record'])
@@ -32,4 +34,3 @@ SAVED_MODEL = os.path.sep.join([PROJECT_FOLDER,
                                 'saved_models',
                                 MODEL_NAME,
                                 'saved_model'])
-
