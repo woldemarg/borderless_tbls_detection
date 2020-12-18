@@ -5,7 +5,7 @@
 
 ```
 # from <root>
-conda create -n <name> python=3.7 tensorflow=2.3 numpy=1.17.4 spyder=4.2 tf_slim cython git
+conda create -n <name> python=3.7 tensorflow=2.3 numpy=1.17.4 tf_slim cython git
 conda activate <name>
 git clone https://github.com/tensorflow/models.git
 pip install git+https://github.com/philferriere/cocoapi.git#subdirectory=PythonAPI
@@ -36,8 +36,6 @@ python workspace\model_main_tf2.py \
     --num_train_steps=%NUM_TRAIN_STEPS% \
     --sample_1_of_n_eval_examples=%SAMPLE_1_OF_N_EVAL_EXAMPLES% \
     --alsologtostderr
-# downgrade numpy to avoid TypeError
-# https://github.com/tensorflow/models/issues/2961#issuecomment-663870239
 python workspace\model_main_tf2.py \
     --pipeline_config_path=%PIPELINE_CONFIG_PATH% \
     --model_dir=%MODEL_DIR% \

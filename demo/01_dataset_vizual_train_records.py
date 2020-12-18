@@ -1,3 +1,4 @@
+import random
 import tensorflow as tf
 import numpy as np
 from google.protobuf import text_format
@@ -25,11 +26,12 @@ with tf.io.gfile.GFile(config.LABEL_MAP, 'r') as f:
 for entry in label_map_proto.item:
     class_dict[entry.id] = {'name': entry.name}
 
-raw_dataset = tf.data.TFRecordDataset(config.TRAIN_RECORD)
+raw_dataset = list(tf.data.TFRecordDataset(config.TRAIN_RECORD))
+random.shuffle(raw_dataset)
 
-fig, ax = plt.subplots(3, 4, figsize=(10, 10))
+fig, ax = plt.subplots(2, 5, figsize=(15, 5))
 
-for i, raw_record in enumerate(raw_dataset.take(12)):
+for i, raw_record in enumerate(raw_dataset[:10]):
 
     example = decoder.decode(raw_record)
 
@@ -51,4 +53,5 @@ for i, raw_record in enumerate(raw_dataset.take(12)):
 
     ax.flat[i].axis('off')
     ax.flat[i].imshow(image)
-plt.tight_layout()
+
+fig.tight_layout()
