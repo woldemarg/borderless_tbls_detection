@@ -97,7 +97,7 @@ fig, ax = plt.subplots(5, 2, figsize=(5, 15))
 for i, im in enumerate(demo_imgs):
     ax.flat[i].axis('off')
     ax.flat[i].imshow(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))
-plt.tight_layout()
+fig.tight_layout()
 
 
 # %%

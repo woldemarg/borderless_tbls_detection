@@ -1,3 +1,5 @@
+"""Dataset expansion with tf-image."""
+
 import os
 import lxml.etree as et
 import numpy as np
@@ -32,10 +34,12 @@ image_paths = list(paths.list_images(config.TRAIN_SET))
 # %%
 
 for i, image_path in enumerate(image_paths):
+
+    # get file with annotations
     filename = image_path.split(os.path.sep)[-1]
     filename = filename[:filename.rfind('.')]
     ANNOT_PATH = os.path.sep.join([config.TRAIN_SET,
-                                  "{}.xml".format(filename)])
+                                   "{}.xml".format(filename)])
 
     CONTENTS = str(open(ANNOT_PATH).read())
     soup = BeautifulSoup(CONTENTS, 'xml')
@@ -46,6 +50,7 @@ for i, image_path in enumerate(image_paths):
     image_encoded = tf.io.read_file(image_path)
     image = tf.image.decode_jpeg(image_encoded)
 
+    # original bbox in absolute coordinates
     bboxes = []
     for o in soup.find_all("object"):
         xMin = int(o.find("xmin").string)
@@ -56,22 +61,25 @@ for i, image_path in enumerate(image_paths):
 
     bboxes = np.array(bboxes, dtype=np.float32)
 
+    # original bbox in relative coordinates [0...1]
     bboxes /= np.stack([h, w, h, w])
 
     for t in range(config.NUM_AUG):
-
-        image_augmented, bboxes_augmented = random_augmentations(image,
-                                                                 aug_config,
-                                                                 bboxes=tf.constant(bboxes))
+        image_augmented, bboxes_augmented = random_augmentations(
+            image,
+            aug_config,
+            bboxes=tf.constant(bboxes)
+        )
 
         image_augmented_encoded = tf.image.encode_png(image_augmented)
 
-        filename_aug = '{}_aug_{}.jpg'.format(filename, t)        
+        FILENAME_AUG = '{}_aug_{}.jpg'.format(filename, t)
 
         tf.io.write_file(os.path.sep.join([config.TRAIN_SET,
-                                           filename_aug]),
+                                           FILENAME_AUG]),
                          image_augmented_encoded)
 
+        # augmented bbox to absolute coordinates
         bboxes_abs = ((bboxes_augmented.numpy() *
                        np.stack([tf.shape(image_augmented)[0],
                                  tf.shape(image_augmented)[1],
@@ -79,22 +87,24 @@ for i, image_path in enumerate(image_paths):
                                  tf.shape(image_augmented)[1]]))
                       .astype(int))
 
+        # slightly change order from yMin, xMin, yMax, xMax
+        # to regular xMin, yMin, xMax, yMax
         bboxes_abs = bboxes_abs[:, [1, 0, 3, 2]]
 
-        for i, o in enumerate(soup.find_all("object")):
+        # write augmented bbox to annotation file
+        for k, o in enumerate(soup.find_all("object")):
             strings = [s for s in o.bndbox.strings if s.isdigit()]
             for j, s in enumerate(strings):
-                s.replace_with(str(bboxes_abs[i, j]))
+                s.replace_with(str(bboxes_abs[k, j]))
 
-        soup.filename.string = filename_aug
+        soup.filename.string = FILENAME_AUG
 
+        # prettify xml file
         xml_string = et.fromstring(soup.decode_contents())
         xml_styles = et.fromstring(str(open(config.XML_STYLE).read()))
 
         transformer = et.XSLT(xml_styles)
         xml_prettified = transformer(xml_string)
-
-
 
         with open(os.path.sep.join([config.TRAIN_SET,
                                     '{}_aug_{}.xml'.format(filename, t)]),

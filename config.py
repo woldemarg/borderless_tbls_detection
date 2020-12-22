@@ -5,8 +5,8 @@ import os
 MAX_IMG_WIDTH = 768
 NUM_AUG = 3
 INF_TH = 0.3
-PROJECT_FOLDER = r'D:\holomb_learn\tbl_detection'
-DEMO_IMG = os.path.sep.join([PROJECT_FOLDER, 'demo', 'images'])
+PROJECT_FOLDER = r'borderless_tbls_detection'
+DEMO_IMG = os.path.sep.join([PROJECT_FOLDER, 'demo', 'img'])
 IMG_FOLDER = os.path.sep.join([PROJECT_FOLDER, 'images'])
 IMG_UNPROCESSED = os.path.sep.join([IMG_FOLDER, 'unprocessed'])
 IMG_PROCESSED = os.path.sep.join([IMG_FOLDER, 'processed'])

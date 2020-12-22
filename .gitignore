@@ -6,7 +6,7 @@
 **/models/*
 **/workspace/*
 **/utils/*
-**/train/logs/*
+**/train_logs/*
 **/saved_models/*
 **/*.jpg
 **/*.xml
